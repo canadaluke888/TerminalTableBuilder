@@ -154,6 +154,38 @@ class TableBuilder:
         except Exception as e:
             self.message_panel.create_error_message(f"Failed to save table to database: {e}")
 
+    
+    def update_table_in_database(self) -> None:
+        """
+        Update the current table in the connected database by deleting the existing table 
+        and saving the new one with the same name (lazy).
+        """
+        if not self.ensure_connected_database():
+            return
+
+        if not self.table_data["columns"]:
+            self.message_panel.create_error_message("No columns defined. Add columns before updating.")
+            return
+
+        try:
+            quoted_table_name = f'"{self.name}"'
+
+            # Check if the table exists
+            self.database.cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
+            existing_tables = [row[0] for row in self.database.cursor.fetchall()]
+            
+            if self.name in existing_tables:
+                # Delete the existing table
+                self.database.cursor.execute(f"DROP TABLE {quoted_table_name}")
+            
+            # Save the new table
+            self.save_to_database()
+            self.message_panel.create_information_message(
+                f"Table '[bold cyan]{self.name}[/]' has been updated in the database."
+            )
+        except Exception as e:
+            self.message_panel.create_error_message(f"Failed to update table: {e}")
+
 
             
     def load_from_database(self) -> None:
@@ -849,6 +881,9 @@ class TableBuilder:
                 
             elif builder_command == "save table":
                 self.save_to_database()
+
+            elif builder_command == "update table":
+                self.update_table_in_database()
                 
             elif builder_command == "delete table":
                 self.delete_table()

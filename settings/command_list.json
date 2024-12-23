@@ -24,7 +24,6 @@
         "exit"
     ],
     "table_builder": [
-        "print help",
         "add column",
         "change type",
         "rename column",
@@ -40,6 +39,8 @@
         "load csv batch",
         "save csv",
         "save json",
+        "save table",
+        "update table",
         "help",
         "exit"
     ]
