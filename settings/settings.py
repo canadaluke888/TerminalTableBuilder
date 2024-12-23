@@ -38,6 +38,11 @@ class Settings:
                 self.set_hide_instructions(value)
                 self.save_settings()
 
+            elif setting == "auto_update":
+                value = self.console.input("[bold yellow]Turn Auto Update on or off[/]: ").lower().strip()
+                self.set_auto_update(value)
+                self.save_settings()
+
             elif setting == "print settings":
                 self.print_settings()
                 
@@ -55,7 +60,8 @@ class Settings:
         except (FileNotFoundError, json.JSONDecodeError):
             # Default settings if file is missing or corrupted
             return {"autoprint_table": False,
-                    "hide_instructions": False}
+                    "hide_instructions": False,
+                    "auto_update": False}
         
     def save_settings(self):
         with open(self.settings_file, 'w') as f:
@@ -77,7 +83,8 @@ class Settings:
     def get_setting_description(self, setting: str) -> str:
         descriptions = {
             "autoprint_table": "Automatically prints the table after a change has been made.",
-            "hide_instructions": "Hide the instructions message when using the app."
+            "hide_instructions": "Hide the instructions message when using the app.",
+            "auto_update": "Automatically update the database table when a change is made."
         }
         return descriptions.get(setting, "No description available.")
     
@@ -111,3 +118,19 @@ class Settings:
             self.message_panel.create_information_message("hide_instructions [bold red]off[/]")
         else:
             self.message_panel.create_error_message("Enter 'on' or 'off'.")
+
+    def set_auto_update(self, value: str):
+        value = value.lower().strip()
+
+        if value == "on":
+            self.settings['auto_update'] = True
+            self.message_panel.create_information_message("auto_update [bold green]on[/]")
+        elif value == "off":
+            self.settings['auto_update'] = False
+            self.message_panel.create_information_message("auto_update [bold red]off[/]")
+        else:
+            self.message_panel.create_error_message("Enter 'on' or 'off'.")
+
+    def get_auto_update(self):
+        value = self.settings.get("auto_update", False)
+        return "on" if value else "off"

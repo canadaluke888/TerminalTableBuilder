@@ -9,6 +9,7 @@
     "settings": [
         "autoprint_table",
         "hide_instructions",
+        "auto_update",
         "print settings",
         "exit"
     ],
@@ -33,6 +34,7 @@
         "remove row",
         "print table",
         "print table data",
+        "current table",
         "clear table",
         "rename",
         "load csv",
@@ -40,7 +42,6 @@
         "save csv",
         "save json",
         "save table",
-        "update table",
         "help",
         "exit"
     ]

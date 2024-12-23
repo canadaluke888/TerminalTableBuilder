@@ -1,4 +1,5 @@
 {
     "autoprint_table": false,
-    "hide_instructions": false
+    "hide_instructions": false,
+    "auto_update": false
 }

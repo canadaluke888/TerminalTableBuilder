@@ -99,8 +99,9 @@ class MessagePanel:
 - [bold cyan]clear table[/]: Clears the table from memory.
 - [bold cyan]load table[/]: Load a table from the database.
 - [bold cyan]delete table[/]: Deletes the table from the database.
-- [bold cyan]save table[/]: Save the table to the database.
+- [bold cyan]save table[/]: Save the table to the database or overwrite existing one.
 - [bold cyan]print table data[/]: Print the JSON data for the current table.
+- [bold cyan]current table[/]: Show the current working table.
 - [bold cyan]load csv[/]: Loads a CSV file into a formatted table.
 - [bold cyan]load csv batch[/]: Load a bunch of CSV files automatically from a directory into the database.
 - [bold cyan]list tables[/]: List the available tables from the database.

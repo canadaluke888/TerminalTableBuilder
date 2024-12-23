@@ -98,7 +98,8 @@ class TableBuilder:
         
     def save_to_database(self) -> None:
         """
-        Save the current table data to the connected database, including column data types.
+        Save the current table data to the connected database, with error handling to abort
+        on any failure.
         """
         if not self.ensure_connected_database():
             return
@@ -108,8 +109,35 @@ class TableBuilder:
             return
 
         try:
-            # Safely quote the table name
             quoted_table_name = f'"{self.name}"'
+
+            # Check if the table exists
+            self.database.cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
+            existing_tables = [row[0] for row in self.database.cursor.fetchall()]
+
+            if self.name in existing_tables:
+                if self.settings.get_auto_update() == "on":
+                    # Auto-update: overwrite the existing table without prompting
+                    self.database.cursor.execute(f"DROP TABLE {quoted_table_name}")
+                else:
+                    # Prompt the user for action
+                    action = self.console.input(
+                        f"[bold yellow]Table '[bold cyan]{self.name}[/]' already exists. "
+                        "Do you want to overwrite it or save with a new name? (overwrite/new)[/]: "
+                    ).strip().lower()
+
+                    if action == "overwrite":
+                        self.database.cursor.execute(f"DROP TABLE {quoted_table_name}")
+                    elif action == "new":
+                        new_name = self.console.input("[bold yellow]Enter a new name for the table[/]: ").strip()
+                        if not new_name:
+                            self.message_panel.create_error_message("Table name cannot be empty.")
+                            return
+                        self.name = new_name
+                        quoted_table_name = f'"{self.name}"'
+                    else:
+                        self.message_panel.create_error_message("Invalid action. Please enter 'overwrite' or 'new'.")
+                        return
 
             # Generate columns definition with data types
             columns_definition = []
@@ -117,7 +145,7 @@ class TableBuilder:
                 column_name = f'"{column["name"]}"'
                 column_type = column["type"].upper()
                 if column_type == "STR":
-                    column_type = "TEXT"  # Map 'str' to SQLite 'TEXT'
+                    column_type = "TEXT"
                 elif column_type == "INT":
                     column_type = "INTEGER"
                 elif column_type == "FLOAT":
@@ -125,17 +153,16 @@ class TableBuilder:
                 elif column_type == "BOOL":
                     column_type = "BOOLEAN"
                 else:
-                    self.message_panel.create_error_message(f"Unsupported data type for column '[bold cyan]{column['name']}': {column['type']}[/]'")
+                    self.message_panel.create_error_message(
+                        f"Unsupported data type for column '[bold cyan]{column['name']}': {column['type']}[/]'"
+                    )
                     return
 
                 columns_definition.append(f"{column_name} {column_type}")
             columns_definition_str = ", ".join(columns_definition)
 
-            # Create the table if it does not exist
-            self.database.cursor.execute(f"CREATE TABLE IF NOT EXISTS {quoted_table_name} ({columns_definition_str})")
-
-            # Clear existing data
-            self.database.cursor.execute(f"DELETE FROM {quoted_table_name}")
+            # Create the table
+            self.database.cursor.execute(f"CREATE TABLE {quoted_table_name} ({columns_definition_str})")
 
             # Insert rows
             for row in self.table_data["rows"]:
@@ -153,38 +180,6 @@ class TableBuilder:
             )
         except Exception as e:
             self.message_panel.create_error_message(f"Failed to save table to database: {e}")
-
-    
-    def update_table_in_database(self) -> None:
-        """
-        Update the current table in the connected database by deleting the existing table 
-        and saving the new one with the same name (lazy).
-        """
-        if not self.ensure_connected_database():
-            return
-
-        if not self.table_data["columns"]:
-            self.message_panel.create_error_message("No columns defined. Add columns before updating.")
-            return
-
-        try:
-            quoted_table_name = f'"{self.name}"'
-
-            # Check if the table exists
-            self.database.cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
-            existing_tables = [row[0] for row in self.database.cursor.fetchall()]
-            
-            if self.name in existing_tables:
-                # Delete the existing table
-                self.database.cursor.execute(f"DROP TABLE {quoted_table_name}")
-            
-            # Save the new table
-            self.save_to_database()
-            self.message_panel.create_information_message(
-                f"Table '[bold cyan]{self.name}[/]' has been updated in the database."
-            )
-        except Exception as e:
-            self.message_panel.create_error_message(f"Failed to update table: {e}")
 
 
             
@@ -276,6 +271,9 @@ class TableBuilder:
                 self.message_panel.create_error_message("No tables found in the database.")
         except Exception as e:
             self.message_panel.create_error_message(f"Failed to list tables: {e}")
+
+    def show_current_table(self) -> MessagePanel:
+        self.message_panel.create_information_message(f"Current Table: [bold cyan]{self.name}[/]")
         
     def save_to_csv(self) -> None:
         """
@@ -698,17 +696,31 @@ class TableBuilder:
 
     def remove_column(self) -> None:
         """
-        Removes a column based on the column name given.
+        Removes a column based on the column name provided by the user.
+        Aborts if the column name is not found or any error occurs.
         """
-        column_name = self.console.input("[bold yellow]Enter column name to remove[/]: ")
-        if column_name in self.table_data["columns"]:
-            self.table_data["columns"].remove(column_name)
+        column_name = self.console.input("[bold yellow]Enter column name to remove[/]: ").strip()
+
+        # Check if the column exists
+        column_names = [col["name"] for col in self.table_data["columns"]]
+        if column_name not in column_names:
+            self.message_panel.create_error_message(f"Column '[bold cyan]{column_name}[/]' does not exist.")
+            return
+
+        try:
+            # Remove the column from the table structure
+            self.table_data["columns"] = [
+                col for col in self.table_data["columns"] if col["name"] != column_name
+            ]
             for row in self.table_data["rows"]:
                 row.pop(column_name, None)
+
             self.table_saved = False
-            self.message_panel.create_information_message("Column removed.")
-        else:
-            self.message_panel.create_error_message("Column not found.")
+            self.message_panel.create_information_message(f"Column '[bold cyan]{column_name}[/]' removed successfully.")
+            
+        except Exception as e:
+            self.message_panel.create_error_message(f"Failed to remove column: {e}")
+
 
     def remove_row(self) -> None:
         """
@@ -834,39 +846,66 @@ class TableBuilder:
                 if self.settings.get_autoprint_table() == "on":
                     self.print_table()
 
+                if self.settings.get_auto_update() == "on":
+                    self.save_to_database()
+
             elif builder_command == "change type":
                 self.change_column_type()
                 if self.settings.get_autoprint_table() == "on":
                     self.print_table()
 
+                if self.settings.get_auto_update() == "on":
+                    self.save_to_database()
+
             elif builder_command == "rename column":
                 self.edit_column_name()
+
+                if self.settings.get_autoprint_table() == "on":
+                    self.print_table()
+
+                if self.settings.get_auto_update() == "on":
+                    self.save_to_database()
 
             elif builder_command == "add row":
                 self.add_row()
                 if self.settings.get_autoprint_table() == "on":
                     self.print_table()
 
+                if self.settings.get_auto_update() == "on":
+                    self.save_to_database()
+
             elif builder_command == "edit cell":
                 self.edit_cell()
                 if self.settings.get_autoprint_table() == "on":
                     self.print_table()
+
+                if self.settings.get_auto_update() == "on":
+                    self.save_to_database()
 
             elif builder_command == "remove column":
                 self.remove_column()
                 if self.settings.get_autoprint_table() == "on":
                     self.print_table()
 
+                if self.settings.get_auto_update() == "on":
+                    self.save_to_database()
+
             elif builder_command == "remove row":
                 self.remove_row()
                 if self.settings.get_autoprint_table() == "on":
                     self.print_table()
+
+                if self.settings.get_auto_update() == "on":
+                    self.save_to_database()
 
             elif builder_command == "print table":
                 self.print_table()
 
             elif builder_command == "print table data":
                 self.print_table_data()
+
+            elif builder_command == "current table":
+                self.show_current_table()
 
             elif builder_command == "clear table":
                 self.clear_table()
@@ -882,9 +921,6 @@ class TableBuilder:
             elif builder_command == "save table":
                 self.save_to_database()
 
-            elif builder_command == "update table":
-                self.update_table_in_database()
-                
             elif builder_command == "delete table":
                 self.delete_table()
                 

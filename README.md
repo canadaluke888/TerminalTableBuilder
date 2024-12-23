@@ -52,6 +52,7 @@ Easily view and edit tables in databases from the terminal.
 - **Removing a row:** Enter the `remove row` command. Enter the row index.
 - **Editing a cell:** Enter the `edit cell` command. Enter the index for the cell that is displayed on the screen. For example, if you wanted to edit the second row of the second column, you would enter '2,2'. After entering the index for the cell, you can then enter the new information that you want in the cell.
 - **Printing the table:** Enter the `print table` command.
+- **Showing the current working table:** Enter the `current table` command and the current working table will be printed to the screen.
 - **Loading data from a CSV file:** Enter the `load csv` command. Enter the path to the CSV file.
 - **Loading more than one CSV file:** Enter the `load csv batch` command. Enter the path to the directory that contains the CSV files. Specify if you want to add the CSV files in the subdirectories. All tables loaded will be saved under the default name "Table".
 - **Saving data to a CSV file:** Enter the `save csv` command. You will be prompted on if you want to use the name of the table as the name of the CSV file. The CSV file will appear in the root directory of the app.
@@ -59,7 +60,7 @@ Easily view and edit tables in databases from the terminal.
 - **Saving the table data to a JSON file:** Enter the `save json` command. Specify if you want to use the name of the table as the name for the JSON file. The file will appear in the root directory for the application.
 - **Loading a table from the database:** Enter the `load table` command and then select from the list of available tables. Make sure that you have a database selected first.
 - **Saving a table to a database:** Enter the `save table` command. The table should be saved to the currently selected database.
-- **Updating an existing table in the database:** After making your changes, enter the `update table` command to update the old table with the new changes.
+- **Updating an existing table in the database:** After making your changes, enter the `save table` command. When prompted to overwrite the existing database, enter 'y'.
 - **Deleting a table from the database:** Enter the `delete table` command. Select the number corresponding to the table you want to delete.
 - **Viewing the available tables in the database:** Enter the `list tables` command.
 - **Clearing the table:** Enter the `clear table` command.
@@ -69,8 +70,9 @@ Easily view and edit tables in databases from the terminal.
 
 ### Settings
 
-- **Turning on autoprint:** Once in the settings, you can enter the `autoprint_table` command. You will then be prompted if you want to turn autoprint on or off. Turning on autoprint_table will automatically print the table after a change has been made.
+- **Turning on Auto Print:** Once in the settings, you can enter the `autoprint_table` command. You will then be prompted if you want to turn Auto Print on or off. Turning on autoprint_table will automatically print the table after a change has been made.
 - **Turning on Hide Instructions:** In the settings, you can enter the `hide_instructions` command. You will then be prompted if you want to turn Hide Instructions on or off. Turning on hide_instructions will stop automatically printing the instructions to the screen while navigating different parts of the app.
+- **Turning on Auto Update:** In the settings, enter the `auto_update` command. You will then be prompted if you want to turn Auto Update on or off. Turning on auto_update will automatically save changes to an existing table in the database.  
 
 ## Third-Party Dependencies
 
