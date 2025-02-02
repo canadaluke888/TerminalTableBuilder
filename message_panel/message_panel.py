@@ -100,7 +100,6 @@ class MessagePanel:
 - [bold cyan]load table[/]: Load a table from the database.
 - [bold cyan]delete table[/]: Deletes the table from the database.
 - [bold cyan]save table[/]: Save the table to the database or overwrite existing one.
-- [bold cyan]print table data[/]: Print the JSON data for the current table.
 - [bold cyan]current table[/]: Show the current working table.
 - [bold cyan]load csv[/]: Loads a CSV file into a formatted table.
 - [bold cyan]load csv batch[/]: Load a bunch of CSV files automatically from a directory into the database.
@@ -109,7 +108,7 @@ class MessagePanel:
 - [bold cyan]save pdf[/]: Save the table to a PDF file.
 - [bold cyan]save json[/]: Save the table data to a JSON file.
 - [bold cyan]exit[/]: Go back to the main menu.
-- [bold cyan]print help[/]: Prints this screen.
+- [bold cyan]help[/]: Prints this screen.
         """
         
     @staticmethod

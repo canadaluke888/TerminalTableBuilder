@@ -2,3 +2,4 @@
 __pycache__/
 databases/
 test_csv/
+.pytest_cache/
