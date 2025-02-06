@@ -143,6 +143,7 @@ class MessagePanel:
 - [bold cyan]list databases:[/] List all databases in a specified directory.
 - [bold cyan]select database:[/] Choose a database from a list of available databases.
 - [bold cyan]current database:[/] Show the currently connected database.
+- [bold cyan]close database:[/] Close the current database connection.
 - [bold cyan]search:[/] Search through the current database based on a query. Returns information on the table, type, and position.
 - [bold cyan]help:[/] Print this instruction screen.
 - [bold cyan]exit:[/] Return to the main menu.

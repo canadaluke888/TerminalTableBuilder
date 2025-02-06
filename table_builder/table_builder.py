@@ -10,9 +10,11 @@ import json
 from rich.panel import Panel
 from settings.settings import Settings
 from rich.console import Console
+import sqlite3
+from database.database import Database
 
 class TableBuilder:
-    def __init__(self, console: Console, settings: Settings, database):
+    def __init__(self, console: Console, settings: Settings, database: Database):
         """
         Initialize a new table.
 
@@ -272,6 +274,27 @@ class TableBuilder:
         except Exception as e:
             self.message_panel.create_error_message(f"Failed to list tables: {e}")
 
+    def get_tables(self) -> list:
+        """
+        Returns a list of table names in the currently connected database.
+        """
+        if not self.ensure_connected_database():
+            self.message_panel.create_error_message("No database is connected.")
+            return []
+        
+        try:
+            self.database.cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
+            return [row[0] for row in self.database.cursor.fetchall()]
+        except sqlite3.Error as e:
+            self.message_panel.create_error_message(f"Failed to fetch tables [blue]{e}[/]")
+
+    def next_table_number(self) -> int:
+        """
+        Returns the next available table number based on the existing tables in the current database.
+        """
+        existing_tables = self.get_tables()
+        return len(existing_tables) + 1
+
     def show_current_table(self) -> MessagePanel:
         self.message_panel.create_information_message(f"Current Table: [bold cyan]{self.name}[/]")
         
@@ -389,11 +412,16 @@ class TableBuilder:
             
     def load_batch_csv(self):
         """
-        Load a batch of CSV files in a specified directory into the database with all columns defaulting to strings.
+        Load multiple CSV files from a specified directory into the database.
         """
         directory = self.console.input("[bold yellow]Enter the directory of CSV files[/]: ").strip()
 
-        # Validate the directory path
+        # Ensure a database is connected
+        if not self.ensure_connected_database():
+            self.message_panel.create_error_message("No database is connected")
+            return
+
+        # Validate directory path
         if not os.path.exists(directory) or not os.path.isdir(directory):
             self.message_panel.create_error_message("Directory does not exist or is invalid.")
             return
@@ -401,37 +429,53 @@ class TableBuilder:
         recursive_load = self.console.input("[bold yellow]Load CSV files from subdirectories? (y/n)[/]: ").strip().lower()
         csv_files = []
 
-        # Collect CSV files based on user input
-        if recursive_load == 'y':
-            for root, dirs, files in os.walk(directory):
-                csv_files.extend([os.path.join(root, file) for file in files if file.endswith('.csv')])
-        elif recursive_load == 'n':
-            csv_files = [os.path.join(directory, file) for file in os.listdir(directory) if file.endswith('.csv')]
-        else:
-            self.message_panel.create_error_message("Invalid input! Please enter 'y' or 'n'.")
+        # Collect CSV files
+        try:
+            if recursive_load == 'y':
+                for root, _, files in os.walk(directory):
+                    csv_files.extend([os.path.join(root, file) for file in files if file.endswith('.csv')])
+            elif recursive_load == 'n':
+                csv_files = [os.path.join(directory, file) for file in os.listdir(directory) if file.endswith('.csv')]
+            else:
+                self.message_panel.create_error_message("Invalid input! Please enter 'y' or 'n'.")
+                return
+        except Exception as e:
+            self.message_panel.create_error_message(f"Error accessing directory: {e}")
             return
 
-        # Notify the user about found CSV files
         if not csv_files:
             self.message_panel.create_error_message("No CSV files found in the specified directory.")
             return
 
         self.message_panel.create_information_message(f"Found [bold cyan]{len(csv_files)}[/] CSV files.")
 
-        # Process each CSV file
-        for i, file in enumerate(csv_files):
+
+        existing_tables = self.get_tables()  # Get list of existing tables
+
+        for file in csv_files:
             try:
                 self.load_csv(path=file)
 
-                # Assign a unique name for each table
-                self.name = f"Table_{os.path.splitext(os.path.basename(file))[0]}_{i + 1}"
+                base_name = os.path.splitext(os.path.basename(file))[0]  # Use filename as default table name
+                if base_name in existing_tables:
+                    # Prompt user to rename or use default
+                    user_choice = self.console.input(
+                        f"[bold yellow]Table '{base_name}' already exists. Enter a new name or press Enter to use default.[/]: "
+                    ).strip()
+
+                    if not user_choice:
+                        base_name = f"Table {self.database.next_table_number()}"
+
+                self.name = base_name
                 self.save_to_database()
+
                 self.message_panel.create_information_message(f"Successfully loaded table '[bold cyan]{self.name}[/]' from file '[bold red]{file}[/]'.")
             except Exception as e:
                 self.message_panel.create_error_message(f"Error processing '[bold blue]{file}[/]': {e}")
 
         self.table_saved = True
         self.message_panel.create_information_message("Batch CSV loading complete!")
+
 
 
 
