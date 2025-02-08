@@ -73,6 +73,7 @@ class MessagePanel:
 [green]
 - [bold cyan]table builder[/]: Enter the table builder.
 - [bold cyan]settings[/]: Enter the settings.
+- [bold cyan]database[/]: Enter the database manager.
 - [bold cyan]exit[/]: Exit the application.
 [/]
         """
