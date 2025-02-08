@@ -11,6 +11,7 @@
         "hide_instructions",
         "auto_update",
         "print settings",
+        "help",
         "exit"
     ],
     "database": [
