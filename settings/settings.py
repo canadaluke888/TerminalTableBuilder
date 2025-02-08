@@ -45,6 +45,9 @@ class Settings:
 
             elif setting == "print settings":
                 self.print_settings()
+
+            elif setting == "help":
+                self.message_panel.print_settings_instructions()
                 
             elif setting == "exit":
                 break
