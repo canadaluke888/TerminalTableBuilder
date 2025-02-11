@@ -1,6 +1,6 @@
 # 💾 Terminal Table Builder 💾
 
-[![BuyMeACoffee](https://raw.githubusercontent.com/pachadotdev/buymeacoffee-badges/main/bmc-donate-yellow.svg)](buymeacoffee.com/lukecanada)
+[![BuyMeACoffee](https://raw.githubusercontent.com/pachadotdev/buymeacoffee-badges/main/bmc-donate-yellow.svg)](https://buymeacoffee.com/lukecanada)
 
 A terminal-based application that allows you to easily build and edit tabular data.
 
