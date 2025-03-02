@@ -1,0 +1,77 @@
+{
+    "main_menu": [
+        "table builder",
+        "database",
+        "settings",
+        "help",
+        "exit"
+    ],
+    "settings": [
+        "autoprint_table",
+        "hide_instructions",
+        "auto_update",
+        "infer_data_types",
+        "styles",
+        "default settings",
+        "print settings",
+        "help",
+        "exit"
+    ],
+    "styles_navigation": [
+        "table",
+        "system",
+        "help",
+        "exit"
+    ],
+    "table_styles": [
+        "set border style",
+        "set column style",
+        "set row style",
+        "help",
+        "exit"
+    ],
+    "system_styles": [
+        "set border style",
+        "set system text",
+        "help",
+        "exit"
+    ],   
+    "database": [
+        "create database",
+        "delete database",
+        "list databases",
+        "select database",
+        "current database",
+        "close database",
+        "search",
+        "help",
+        "exit"
+    ],
+    "table_builder": [
+        "add column",
+        "change type",
+        "rename column",
+        "add row",
+        "edit cell",
+        "remove column",
+        "remove row",
+        "print table",
+        "print table data",
+        "current table",
+        "clear table",
+        "rename",
+        "load csv",
+        "save pdf",
+        "load pdf",
+        "load xl",
+        "load ods",
+        "load csv batch",
+        "save csv",
+        "save xl",
+        "save ods",
+        "save json",
+        "save table",
+        "help",
+        "exit"
+    ]
+}

@@ -1,0 +1,11 @@
+{
+    "table": {
+        "table_border_style": "yellow",
+        "row_style": "magenta",
+        "column_style": "cyan1"
+    },
+    "system": {
+        "system_border_style": "cyan",
+        "system_text_style": "white"
+    }
+}

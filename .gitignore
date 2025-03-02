@@ -1,0 +1,4 @@
+__pycache__/
+.cpython
+src/databases/Testing.db
+scratch.py
