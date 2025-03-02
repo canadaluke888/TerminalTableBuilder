@@ -78,6 +78,12 @@ Easily view and edit tables in databases from the terminal.
 
 ## Third-Party Dependencies
 
-- [rich](https://github.com/Textualize/rich) - MIT LICENSE
+- [rich](https://github.com/Textualize/rich)
 
-- [report lab](https://pypi.org/project/reportlab) - BSD LICENSE
+- [report lab](https://pypi.org/project/reportlab)
+
+- [openpyxl](https://pypi.org/project/openpyxl/)
+
+- [pyexcel-ods3](https://pypi.org/project/pyexcel-ods3/)
+
+- [pdfplumber](https://pypi.org/project/pdfplumber/)
