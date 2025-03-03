@@ -82,14 +82,14 @@ Easily view and edit tables in databases from the terminal.
 - **Turning on Auto Update:** In the settings, enter the `auto_update` command. You will then be prompted if you want to turn Auto Update on or off. Turning on auto_update will automatically save changes to an existing table in the database.
 - **Turning off Infer Types:** In the settings, enter the `infer_data_types`. You will be prompted if you want to turn Infer Data Types on or off. Turning off infer_data_types will let you manually set the data types when loading data from external sources (CSV, PDF, XLSX, ODS). Types will be defaulted to type 'str'.
 
-#### Styles
+    #### Styles
 
-You can enter the 'Styles' section from the 'Settings' section by entering the `styles` command.
+    You can enter the 'Styles' section from the 'Settings' section by entering the `styles` command.
 
-- **Changing the border style for tables:** First enter the `table` command. Then, enter the `set border style` command. Choose the number corresponding to the color you would like to set it as.
-- **Changing the column style for tables:** Enter the `table` command. Then, enter the `set column style` command. Choose the number corresponding to the color you would like to set it as.
-- **Changing the row style for tables:** Enter the `table` command. Then, enter the `set row style` command. Choose the number corresponding to the color you would like to set it as.
-- **Changing the border style for system messages:** Enter the `system` command. Then, enter the `set border style` command. Choose the number corresponding to the color you would like to set it as.
+    - **Changing the border style for tables:** First enter the `table` command. Then, enter the `set border style` command. Choose the number corresponding to the color you would like to set it as.
+    - **Changing the column style for tables:** Enter the `table` command. Then, enter the `set column style` command. Choose the number corresponding to the color you would like to set it as.
+    - **Changing the row style for tables:** Enter the `table` command. Then, enter the `set row style` command. Choose the number corresponding to the color you would like to set it as.
+    - **Changing the border style for system messages:** Enter the `system` command. Then, enter the `set border style` command. Choose the number corresponding to the color you would like to set it as.
 
 ## Third-Party Dependencies
 
