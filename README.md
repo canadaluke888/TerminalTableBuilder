@@ -8,15 +8,15 @@ Easily view and edit tables in databases from the terminal.
 
 ## Connecting To A Database
 
-![Connecting to a database](screenshots/TerminalTableBuilderDatabaseSetup.png)
+![Connecting to a database](screenshots/ConnectingToDatabaseSS.png)
 
 ## Searching Data
 
-![Searching Data](screenshots/TerminalTableBuilderDatabaseSearchSS.png)
+![Searching Data](screenshots/SearchingDataSS.png)
 
 ## Adding Data To A Table
 
-![Adding data to a table](screenshots/TerminalTableBuilderAddDataSS.png)
+![Adding data to a table](screenshots/AddingDataToTableSS.png)
 
 ## Prerequisites
 
@@ -31,7 +31,7 @@ Easily view and edit tables in databases from the terminal.
 
 ## Usage
 
-- **Starting the application:** For Linux and Max OS, `python3 main.py`. For Windows, `python main.py`.
+- **Starting the application:** For Linux and Max OS, `python3 main.py`. For Windows, `python main.py`. Make sure you cd into the 'src' directory.
 
 ### Database
 
@@ -57,7 +57,12 @@ Easily view and edit tables in databases from the terminal.
 - **Showing the current working table:** Enter the `current table` command and the current working table will be printed to the screen.
 - **Loading data from a CSV file:** Enter the `load csv` command. Enter the path to the CSV file.
 - **Loading more than one CSV file:** Enter the `load csv batch` command. Enter the path to the directory that contains the CSV files. Specify if you want to add the CSV files in the subdirectories. All tables loaded will be saved under the default name "Table".
+- **Loading data from a XLSX file:** Enter the `load xl` command. Enter the path to the XLSX file.
+- **Loading data from a ODS file:** Enter the `load ods` command. Enter the path to the ODS file.
+- **Loading data from a PDF file:** Enter the `load pdf` command. Enter the path to the PDF file. Make sure the PDF file is correctly formatted into a valid table to avoid errors.
 - **Saving data to a CSV file:** Enter the `save csv` command. You will be prompted on if you want to use the name of the table as the name of the CSV file. The CSV file will appear in the root directory of the app.
+- **Saving data to a XLSX file:** Enter the `save xl` command. You will be prompted on if you want to use the name of the table as the name of the XLSX file.
+- **Saving data to a ODS file:** Enter the `save ods` command. You will be prompted on if you want to use the name of the table as the name of the ODS file.
 - **Saving a table to a PDF file:** Enter the `save pdf` command. You will be prompted on if you want to use the table name as the file name. The PDF file will appear in the root directory of the application.
 - **Saving the table data to a JSON file:** Enter the `save json` command. Specify if you want to use the name of the table as the name for the JSON file. The file will appear in the root directory for the application.
 - **Loading a table from the database:** Enter the `load table` command and then select from the list of available tables. Make sure that you have a database selected first.
@@ -74,7 +79,17 @@ Easily view and edit tables in databases from the terminal.
 
 - **Turning on Auto Print:** Once in the settings, you can enter the `autoprint_table` command. You will then be prompted if you want to turn Auto Print on or off. Turning on autoprint_table will automatically print the table after a change has been made.
 - **Turning on Hide Instructions:** In the settings, you can enter the `hide_instructions` command. You will then be prompted if you want to turn Hide Instructions on or off. Turning on hide_instructions will stop automatically printing the instructions to the screen while navigating different parts of the app.
-- **Turning on Auto Update:** In the settings, enter the `auto_update` command. You will then be prompted if you want to turn Auto Update on or off. Turning on auto_update will automatically save changes to an existing table in the database.  
+- **Turning on Auto Update:** In the settings, enter the `auto_update` command. You will then be prompted if you want to turn Auto Update on or off. Turning on auto_update will automatically save changes to an existing table in the database.
+- **Turning off Infer Types:** In the settings, enter the `infer_data_types`. You will be prompted if you want to turn Infer Data Types on or off. Turning off infer_data_types will let you manually set the data types when loading data from external sources (CSV, PDF, XLSX, ODS). Types will be defaulted to type 'str'.
+
+#### Styles
+
+You can enter the 'Styles' section from the 'Settings' section by entering the `styles` command.
+
+- **Changing the border style for tables:** First enter the `table` command. Then, enter the `set border style` command. Choose the number corresponding to the color you would like to set it as.
+- **Changing the column style for tables:** Enter the `table` command. Then, enter the `set column style` command. Choose the number corresponding to the color you would like to set it as.
+- **Changing the row style for tables:** Enter the `table` command. Then, enter the `set row style` command. Choose the number corresponding to the color you would like to set it as.
+- **Changing the border style for system messages:** Enter the `system` command. Then, enter the `set border style` command. Choose the number corresponding to the color you would like to set it as.
 
 ## Third-Party Dependencies
 
