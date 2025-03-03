@@ -188,7 +188,7 @@ class TableOperations:
 
         # Display table cells with their indices
         self.table_builder.console.print("[bold green]Table Cells[/]:")
-        for row_idx, row in enumerate(self.table_data["rows"], start=1):
+        for row_idx, row in enumerate(self.table_builder.table_data["rows"], start=1):
             row_display = [
                 f"({row_idx},{col_idx + 1}) {row[col['name']]}" for col_idx, col in enumerate(self.table_builder.table_data["columns"])
             ]
