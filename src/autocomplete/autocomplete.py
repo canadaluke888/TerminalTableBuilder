@@ -31,11 +31,7 @@ class Autocomplete:
         
         self.database_commands = self.get_database_commands()
 
-        self.style_navigation = self.get_style_navigation_commands()
-
-        self.table_style_commands = self.get_table_style_commands()
-
-        self.system_style_commands = self.get_system_style_commands()
+        self.style_commands = self.get_style_commands()
         
     @cache
     def load_command_list(self) -> dict:
@@ -89,25 +85,14 @@ class Autocomplete:
         return self.all_commands.get("database")
     
     @cache
-    def get_style_navigation_commands(self):
+    def get_style_commands(self) -> list:
         """
-        Returns the list of navigation commands for the styles section.
-        """
-        return self.all_commands.get("styles_navigation")
+        Extracts the style command from the complete list of commands.
 
-    @cache    
-    def get_table_style_commands(self):
+        Returns:
+            list: The complete list of style commands.
         """
-        Returns the list of commands you can use when setting styles in the table section.
-        """
-        return self.all_commands.get("table_styles")
-    
-    @cache
-    def get_system_style_commands(self):
-        """
-        Returns the list of commands you can use when setting styles in the system section.
-        """
-        return self.all_commands.get("system_styles")
+        return self.all_commands.get("styles")
     
     def suggest_command(self, user_input: str, commands: list) -> SystemMessage:
         """

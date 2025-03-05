@@ -1,4 +1,6 @@
 from rich.table import Table
+from rich.console import Group
+from rich.panel import Panel
 import json
 
 
@@ -42,14 +44,8 @@ class StylesSetting:
         """
         return self.user_styles["table"].get("table_border_style")
     
-    def get_table_column_style(self) -> str:
-        """
-        Returns the current table column style set by the user.
-
-        Returns:
-            str: Set color.
-        """
-        return self.user_styles["table"].get("column_style")
+    def get_table_title_style(self) -> str:
+        return self.user_styles["table"].get("table_title_style")
 
     def get_table_row_style(self) -> str:
         """
@@ -65,8 +61,8 @@ class StylesSetting:
         self.user_styles["table"]["table_border_style"] = color
         self.save_user_styles()
 
-    def set_table_column_style(self, color: str) -> None:
-        self.user_styles["table"]["column_style"] = color
+    def set_table_title_style(self, color: str) -> None:
+        self.user_styles["table"]["table_title_style"] = color
         self.save_user_styles()
 
     def set_table_row_style(self, color: str) -> None:
@@ -117,7 +113,13 @@ class StylesSetting:
         except (FileNotFoundError, json.JSONDecodeError) as e:
              self.system_message.create_error_message(f"Unable to load color file: {e}")
 
-    def print_current_user_styles(self) -> None:
+    def get_current_user_styles(self) -> Table:
+        """
+        Returns the current user styles in a rendered table.
+
+        Returns:
+            Table: The style settings and their current values.
+        """
         # Table Styles Table
         table = Table(title="[bold red]Table Styles[/]", border_style="yellow", show_lines=True)
         table.add_column("Setting", style="cyan")
@@ -126,67 +128,66 @@ class StylesSetting:
         for setting, value in self.user_styles["table"].items():
             table.add_row(setting, str(value))
 
-        self.settings.console.print(table)
+        return table
 
-        
+    def print_styles_instructions(self) -> None:
+        """
+        Prints the current styles table to the sc
+        """
 
+        panel = Panel(Group(self.settings.instruction_message.get_styles_instructions(), self.get_current_user_styles()),
+                      title="[bold red]Styles[/] - [bold white]Instructions[/]",
+                      title_align="center",
+                      border_style="white")
+
+        self.settings.console.print(panel)
+
+    def print_current_user_styles(self) -> None:
+        self.settings.console.print(self.get_current_user_styles())
 
     def launch_styles(self):
 
         if self.settings.get_setting("hide_instructions") == "off":
-            self.settings.instruction_message.print_styles_instructions()
-
-        self.print_current_user_styles()
+            self.print_styles_instructions()
 
         while True:
 
             styles_command = self.settings.console.input("[bold red]Styles[/] - [bold yellow]Enter a command[/]: ").lower().strip()
 
-            if styles_command == "table":
+            if styles_command == "set border style":
 
-                table_styles_command = self.settings.console.input("[bold red]Table Styles[/] - [bold yellow]Enter a command[/]: ").lower()
+                color = self.choose_color()
 
-                if table_styles_command == "set border style":
+                self.set_table_border_style(color)
 
-                    color = self.choose_color()
+                self.settings.system_message.create_information_message(f"Table Border style set to [{color}]{color}[/]")
 
-                    self.set_table_border_style(color)
+            elif styles_command == "set table title style":
 
-                    self.settings.system_message.create_information_message(f"Table Border style set to [{color}]{color}[/]")
+                color = self.choose_color()
 
-                elif table_styles_command == "set column style":
-                    
-                    color = self.choose_color()
+                self.set_table_title_style(color)
 
-                    self.set_table_column_style(color)
-
-                    self.settings.system_message.create_information_message(f"Column style set to [{color}]{color}[/]")
-
-                elif table_styles_command == "set row style":
-
-                    color = self.choose_color()
-
-                    self.set_table_row_style(color)
-
-                    self.settings.system_message.create_information_message(f"Row style set to [{color}]{color}[/]")
-
-                elif table_styles_command == "print current styles":
-                    self.print_current_user_styles()
-
-                elif table_styles_command == "exit":
-                    break
+                self.settings.system_message.create_information_message(f"Table title style set to [{color}]{color}[/]")
 
 
-                else:
-                    self.settings.system_message.create_error_message("Invalid input.")
-                    self.settings.autocomplete.suggest_command(table_styles_command, self.settings.autocomplete.table_style_commands)
+            elif styles_command == "set row style":
+
+                color = self.choose_color()
+
+                self.set_table_row_style(color)
+
+                self.settings.system_message.create_information_message(f"Row style set to [{color}]{color}[/]")
 
             elif styles_command == "print current styles":
                 self.print_current_user_styles()
+
+            elif styles_command == "help":
+                self.print_styles_instructions()
 
             elif styles_command == "exit":
                 break
 
             else:
                 self.settings.system_message.create_error_message("Invalid input.")
-                self.settings.autocomplete.suggest_command(styles_command, self.settings.autocomplete.style_navigation)
+                self.settings.autocomplete.suggest_command(styles_command, self.settings.autocomplete.style_commands)

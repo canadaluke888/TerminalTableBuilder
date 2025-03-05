@@ -17,18 +17,14 @@
         "help",
         "exit"
     ],
-    "styles_navigation": [
-        "table",
+    "styles": [
         "print current styles",
+        "set table title style",
+        "set border style",
+        "set row style",
+        "help",
         "exit"
     ],
-    "table_styles": [
-        "set border style",
-        "set column style",
-        "set row style",
-        "print current styles",
-        "exit"
-    ],  
     "database": [
         "create database",
         "delete database",

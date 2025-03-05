@@ -8,7 +8,7 @@ class TableDisplay:
         self.table_builder = table_builder
         self.user_styles = StylesSetting(self.table_builder.settings)
         self.table_border_style = self.user_styles.get_table_border_style()
-        self.table_column_style = self.user_styles.get_table_column_style()
+        self.table_title_style = self.user_styles.get_table_title_style()
         self.table_row_style = self.user_styles.get_table_row_style()
         
 
@@ -25,13 +25,13 @@ class TableDisplay:
             return Table(border_style="yellow", show_lines=True)
 
         # Create a Rich Table instance
-        table = Table(title=self.table_builder.name, border_style=self.table_border_style, show_lines=True)
+        table = Table(title=f"[{self.table_title_style}]{self.table_builder.name}[/]", border_style=self.table_border_style, show_lines=True)
 
         # Add columns with type information
         for column in self.table_builder.table_data["columns"]:
             column_name = column["name"]
             column_type = column["type"]
-            table.add_column(f"{column_name} ([bold red]{column_type}[/])", style=self.table_column_style)
+            table.add_column(f"{column_name} ([bold red]{column_type}[/])", style="cyan")
 
         # Add rows
         for row in self.table_builder.table_data["rows"]:

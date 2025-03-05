@@ -1,7 +1,7 @@
 {
     "table": {
+        "table_title_style": "red",
         "table_border_style": "yellow",
-        "row_style": "magenta",
-        "column_style": "cyan"
+        "row_style": "magenta"
     }
 }

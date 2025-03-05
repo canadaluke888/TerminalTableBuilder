@@ -86,10 +86,10 @@ class InstructionMessage:
 [bold yellow]Welcome to the Settings![/]
 
 [bold yellow]Instructions:[/]
-[green]
-- Enter the setting and then the value.
-- Use 'print settings' to show the current settings.
-[/green]
+
+- [green]Enter the setting and then the value.[/]
+- [cyan]print settings[/]: Prints the current settings.
+- [cyan]styles[/]: Enter the styles section. 
 [bold red]Tip:[/] Double-check your input for accuracy!
 
 Below you can find your current settings.
@@ -126,41 +126,16 @@ Below you can find your current settings.
         return """
 [bold pink]Welcome to the Styles Manager![/]
 
-[bold yellow]Here you can set styles of your Table and system.[/]
+[bold yellow]Here you can set styles for your table.[/]
 
-[bold turquoise]Main Styles Menu[/]
+[green]Enter the style setting and then the color.[/]
 
-    - [bold cyan]table[/]: Enter the style settings for tables.
-    - [bold cyan]system:[/]: Enter the style settings for the system.
+- [cyan]print current styles:[/] Prints the current set styles.
+- [cyan]help:[/] Prints this instruction screen.
+- [cyan]exit:[/] Exits the styles section.
 
-    [bold turquoise]Table Styles Menu[/]
-    
-        - [bold cyan]set column style[/]: Set the style of the columns.
-        - [bold cyan]set row style[/]: Set the style of the rows. 
-
-    [bold turquoise]Main Styles Menu[/]
-
-        - [bold cyan]set border style[/]: Set the style for the border of system messages.
-        - [bold cyan]set system style[/]: Set the style for the text.
-
-[bold blue]Tip[/] Use '[bold red]exit[/]' to go back and forth.
+Below you can find the current set styles.
 """
-
-    def print_styles_instructions(self) -> None:
-        """
-        Print the styles instructions panel.
-
-        Returns:
-            Panel: The rendered panel with the styles instructions.
-        """
-
-        self.console.print(
-            Panel(self.get_styles_instructions(),
-                  title="[bold red]Styles[/] - [bold white]Instructions[/]",
-                  title_align="center",
-                  border_style="cyan"
-                  )
-        )
 
     def print_welcome_message(self) -> None:
         """
