@@ -78,7 +78,9 @@ class CSVHandler:
                     for row in rows[1:]
                 ]
 
-                self.table_builder.table_specs.infer_column_types() # Infer column types and apply
+
+                if self.table_builder.settings.get_setting("infer_data_types") == "on":
+                    self.table_builder.table_specs.infer_column_types() # Infer column types and apply
                 self.table_builder.name = os.path.splitext(os.path.basename(csv_path))[0] # Change table name to file basename without extension
                 self.table_builder.table_saved = False # Mark the table as unsaved
                 self.table_builder.system_message.create_information_message("CSV file loaded successfully.")

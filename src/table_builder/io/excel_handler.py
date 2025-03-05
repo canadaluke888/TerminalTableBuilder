@@ -29,7 +29,8 @@ class ExcelHandler:
             self.table_builder.table_data["columns"] = [{"name": col, "type": "str"} for col in data[0]]
             self.table_builder.table_data["rows"] = [{col: row[i] if i < len(row) else "" for i, col in enumerate(data[0])} for row in data[1:]]
             self.table_builder.name = os.path.splitext(os.path.basename(file_name))[0]
-            self.table_builder.table_specs.infer_column_types()
+            if self.table_builder.settings.get_setting("infer_data_types") == "on":
+                self.table_builder.table_specs.infer_column_types()
             self.table_builder.system_message.create_information_message("Excel file loaded successfully.")
         except Exception as e:
             self.table_builder.system_message.create_error_message(f"Failed to load Excel file: {e}")
