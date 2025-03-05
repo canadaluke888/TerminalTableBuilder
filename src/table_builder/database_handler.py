@@ -167,8 +167,6 @@ class DatabaseHandler:
             self.table_builder.system_message.create_information_message(
                 f"Table '[bold cyan]{table_name}[/]' loaded successfully from database '[bold red]{self.table_builder.database.get_current_database()}[/]'."
             )
-            if self.table_builder.settings.get_autoprint_table() == "on":
-                self.table_builder.table_display.print_table()
         except Exception as e:
             self.table_builder.system_message.create_error_message(f"Failed to load table: {e}")
 
