@@ -149,6 +149,8 @@ class CSVHandler:
                     if not user_choice:
                         base_name = f"Table {self.table_builder.table_specs.next_table_number()}"
 
+                if self.table_builder.settings.get_setting("infer_data_types") == "on":
+                    self.table_builder.table_specs.infer_column_types()
                 self.table_builder.name = base_name
                 self.table_builder.database_handler.save_to_database()
 
