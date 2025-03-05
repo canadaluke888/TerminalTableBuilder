@@ -1,6 +1,4 @@
 from rich.table import Table
-from rich.panel import Panel
-from rich.columns import Columns
 import json
 
 
@@ -23,15 +21,11 @@ class StylesSetting:
             self.settings.system_message.create_error_message("Could not load user styles. Loading defaults.")
             return {
                 "table": {
-                "border_style": "yellow",
-                "row_style": "magenta",
-                "column_style": "cyan"
-            },
-            "system": {
-                "border_style": "cyan",
-                "system_style": "white"
-            }
-        }   
+                        "border_style": "yellow",
+                        "row_style": "magenta",
+                        "column_style": "cyan"
+                    }
+                }   
     def save_user_styles(self) -> None:
         """
         Save the current style settings to file.
@@ -65,24 +59,6 @@ class StylesSetting:
             str: Set color.
         """
         return self.user_styles["table"].get("row_style")
-    
-    def get_system_border_style(self) -> str:
-        """
-        Returns the current system border style set by the user. 
-
-        Returns:
-            str: Set color
-        """
-        return self.user_styles["system"].get("system_border_style")
-    
-    def get_system_text_style(self) -> str:
-        """
-        Returns the current system text style set by the user.
-
-        Returns:
-            str: Set color.
-        """
-        return self.user_styles["system"].get("system_text_style")
 
 
     def set_table_border_style(self, color: str) -> None:
@@ -95,14 +71,6 @@ class StylesSetting:
 
     def set_table_row_style(self, color: str) -> None:
         self.user_styles["table"]["row_style"] = color
-        self.save_user_styles()
-
-    def set_system_border_style(self, color: str) -> None:
-        self.user_styles["system"]["system_border_style"] = color
-        self.save_user_styles()
-
-    def set_system_text_style(self, color: str) -> None:
-        self.user_styles["system"]["system_text_style"] = color
         self.save_user_styles()
         
     def choose_color(self) -> str:
@@ -151,32 +119,16 @@ class StylesSetting:
 
     def print_current_user_styles(self) -> None:
         # Table Styles Table
-        table_styles_table = Table(title="[bold red]Table Styles[/]", border_style="yellow", show_lines=True)
-        table_styles_table.add_column("Setting", style="cyan")
-        table_styles_table.add_column("Value", style="magenta")
+        table = Table(title="[bold red]Table Styles[/]", border_style="yellow", show_lines=True)
+        table.add_column("Setting", style="cyan")
+        table.add_column("Value", style="magenta")
 
         for setting, value in self.user_styles["table"].items():
-            table_styles_table.add_row(setting, str(value))
+            table.add_row(setting, str(value))
 
-        # System Styles Table
-        system_styles_table = Table(title="[bold blue]System Styles[/]", border_style="green", show_lines=True)
-        system_styles_table.add_column("Setting", style="cyan")
-        system_styles_table.add_column("Value", style="magenta")
+        self.settings.console.print(table)
 
-        for setting, value in self.user_styles["system"].items():
-            system_styles_table.add_row(setting, str(value))
-
-        # Use Columns to display tables side by side
-        columns_layout = Columns([table_styles_table, system_styles_table], expand=True)
-
-        panel = Panel(
-            columns_layout,
-            title="[bold white]Current User Styles[/]",
-            title_align="center",
-            border_style="white"
-        )
-
-        self.settings.console.print(panel)
+        
 
 
     def launch_styles(self):
@@ -218,6 +170,9 @@ class StylesSetting:
 
                     self.settings.system_message.create_information_message(f"Row style set to [{color}]{color}[/]")
 
+                elif table_styles_command == "print current styles":
+                    self.print_current_user_styles()
+
                 elif table_styles_command == "exit":
                     break
 
@@ -226,32 +181,8 @@ class StylesSetting:
                     self.settings.system_message.create_error_message("Invalid input.")
                     self.settings.autocomplete.suggest_command(table_styles_command, self.settings.autocomplete.table_style_commands)
 
-            elif styles_command == "system":
-
-                system_style_command = self.settings.console.input("[bold red]System Styles[/] - [bold yellow]Enter a command[/]: ").lower().strip()
-
-                if system_style_command == "set border style":
-
-                    color = self.choose_color()
-
-                    self.set_system_border_style(color)
-
-                    self.settings.system_message.create_information_message(f"System border style set to [{color}]{color}[/]")
-                
-                elif system_style_command == "set system style":
-
-                    color = self.choose_color()
-
-                    self.set_system_text_style(color)
-
-                    self.settings.system_message.create_information_message(f"System text style set to [{color}]{color}[/]")
-
-                elif system_style_command == "exit":
-                    break
-
-                else:
-                    self.settings.system_message.create_error_message("Invalid input.")
-                    self.settings.autocomplete.suggest_command(system_style_command, self.settings.autocomplete.system_style_commands)
+            elif styles_command == "print current styles":
+                self.print_current_user_styles()
 
             elif styles_command == "exit":
                 break

@@ -19,23 +19,16 @@
     ],
     "styles_navigation": [
         "table",
-        "system",
-        "help",
+        "print current styles",
         "exit"
     ],
     "table_styles": [
         "set border style",
         "set column style",
         "set row style",
-        "help",
+        "print current styles",
         "exit"
-    ],
-    "system_styles": [
-        "set border style",
-        "set system text",
-        "help",
-        "exit"
-    ],   
+    ],  
     "database": [
         "create database",
         "delete database",
