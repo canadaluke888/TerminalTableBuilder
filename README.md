@@ -86,10 +86,9 @@ Easily view and edit tables in databases from the terminal.
 
     You can enter the 'Styles' section from the 'Settings' section by entering the `styles` command.
 
-    - **Changing the border style for tables:** First enter the `table` command. Then, enter the `set border style` command. Choose the number corresponding to the color you would like to set it as.
-    - **Changing the column style for tables:** Enter the `table` command. Then, enter the `set column style` command. Choose the number corresponding to the color you would like to set it as.
-    - **Changing the row style for tables:** Enter the `table` command. Then, enter the `set row style` command. Choose the number corresponding to the color you would like to set it as.
-    - **Changing the border style for system messages:** Enter the `system` command. Then, enter the `set border style` command. Choose the number corresponding to the color you would like to set it as.
+    - **Changing the table title style:** Enter the `set table title style` command. Choose the number corresponding to the color you would like to set it as.
+    - **Changing the border style for tables:** Enter the `set border style` command. Choose the number corresponding to the color you would like to set it as.
+    - **Changing the row style for tables:** Enter the `set row style` command. Choose the number corresponding to the color you would like to set it as.
 
 ## Third-Party Dependencies
 
