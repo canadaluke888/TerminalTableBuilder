@@ -50,7 +50,7 @@ class Settings:
                 self.save_settings()
             elif setting == "styles":
                 self.styles_settings.launch_styles()
-            elif setting == "print settings":
+            elif setting == "print current settings":
                 self.print_current_settings()
             elif setting == "default settings":
                 self.return_settings_to_default()
@@ -96,14 +96,14 @@ class Settings:
         Return: The rendered panel with the settings instructions as well as the current settings.
         """
         self.console.print(
-            Panel(Group(self.instruction_message.get_settings_instructions(), self.print_current_settings()),
+            Panel(Group(self.instruction_message.get_settings_instructions(), self.get_current_settings()),
                 title="[bold red]Settings[/] - [bold white]Instructions[/]",
                 title_align="center",
                 border_style="cyan",
             )
         )
         
-    def print_current_settings(self) -> Table:
+    def get_current_settings(self) -> Table:
         table = Table(title="[bold blue]Current Settings[/]", border_style="yellow", show_lines=True)
         table.add_column("Setting", style="cyan")
         table.add_column("Description", style="green")
@@ -115,6 +115,9 @@ class Settings:
             table.add_row(setting, description, value)
         
         return table
+    
+    def print_current_settings(self) -> None:
+        self.console.print(self.get_current_settings())
 
     def get_setting(self, setting: str) -> str:
         """
