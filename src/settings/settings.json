@@ -2,6 +2,5 @@
     "autoprint_table": false,
     "hide_instructions": false,
     "auto_update": false,
-    "infer_data_types": true,
-    "database_directory": null
+    "infer_data_types": true
 }

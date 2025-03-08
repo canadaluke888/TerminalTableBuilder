@@ -6,7 +6,6 @@ from autocomplete.autocomplete import Autocomplete
 from rich.console import Console
 from rich.console import Group
 from rich.panel import Panel
-import os
 from .styles.styles import StylesSetting
 
 class Settings:
@@ -31,8 +30,7 @@ class Settings:
             "autoprint_table": "Automatically prints the table after a change has been made.",
             "hide_instructions": "Hide the instructions message when using the app.",
             "auto_update": "Automatically update the database table when a change is made.",
-            "infer_data_types": "Enable automatic type inference when loading data.",
-            "database_directory": "Set the directory where the databases will be stored."
+            "infer_data_types": "Enable automatic type inference when loading data."
         }
         
     def launch_settings(self) -> None:
@@ -83,8 +81,7 @@ class Settings:
                 "autoprint_table": False,
                 "hide_instructions": False,
                 "auto_update": False,
-                "infer_data_types": True,
-                "database_directory": None
+                "infer_data_types": True
                 }
         return settings        
 
@@ -164,7 +161,6 @@ class Settings:
                 "hide_instructions": False,
                 "auto_update": False,
                 "infer_data_types": True,
-                "database_directory": None
                 }
             self.save_settings()
             self.system_message.create_information_message("Settings reset to defaults.")
@@ -172,25 +168,3 @@ class Settings:
             return
         else:
             self.system_message.create_error_message("Invalid input. Please enter 'y' or 'n'.")
-        
-
-    def set_database_directory(self) -> None:
-        """
-        Set the database directory where the databases will be stored.
-
-        Args:
-            directory (str): The selected directory.
-        """
-
-        directory = self.console.input("[bold yellow]Enter the database directory[/]: ")
-
-        if directory is not os.path.isdir():
-            self.system_message.create_error_message("Please enter a valid directory.")
-            return
-
-        self.settings["database_directory"] = directory
-        self.save_settings()
-        self.system_message.create_information_message(f"Database directory set to '[bold cyan]{directory}[/]'.")
-
-    def get_database_directory(self) -> str:
-        return self.settings.get("database_directory", None)

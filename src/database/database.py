@@ -117,18 +117,8 @@ class Database:
         Ensure the 'databases' directory exists in the current working directory.
         """
         if not os.path.exists(self.database_directory):
-
-            startup_set = self.console.input("[bold yellow]Do you want to set a custom path for the database directory? (y/n): ").lower().strip()
-
-            if startup_set == "y":
-                directory = self.console.input("[bold yellow]Enter the path to the directory[/]: ").strip()
-                databases_directory = os.path.join(directory, "databases")
-                self.settings.set_database_directory(databases_directory)
-                self.system_message.create_information_message(f"Created 'databases' directory at [bold red]{databases_directory}[/]")
-            elif startup_set == "n" or None:
-                os.makedirs(self.database_directory)
-                self.settings.set_database_directory(self.database_directory)
-                self.system_message.create_information_message(f"Created 'databases' directory at [bold red]{self.database_directory}[/]")
+            os.makedirs(self.database_directory)
+            self.system_message.create_information_message(f"Created 'databases' directory at [bold red]{self.database_directory}[/]")
             
     def connect(self, db_name: str = None, db_path: str = None):
         """
