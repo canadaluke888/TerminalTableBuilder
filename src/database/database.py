@@ -130,23 +130,38 @@ class Database:
                 self.settings.set_database_directory(self.database_directory)
                 self.system_message.create_information_message(f"Created 'databases' directory at [bold red]{self.database_directory}[/]")
             
-    def connect(self, db_name: str):
+    def connect(self, db_name: str = None, db_path: str = None):
         """
-        Connect to the specified SQLite database in the 'databases' directory.
+        Connect to the specified SQLite database. Supports both a database name (within the 'databases' directory)
+        or a full file path.
+
+        :param db_name: Name of the database (inside the 'databases' directory).
+        :param db_path: Full path to the database file.
         """
-        db_path = os.path.join(self.database_directory, db_name)
-        if not os.path.exists(db_path):
-            self.system_message.create_error_message(f"Database '[bold cyan]{db_name}[/]' does not exist in the 'databases' directory.")
+        if db_path:
+            # Use the provided full path
+            resolved_path = os.path.abspath(db_path)
+        elif db_name:
+            # Construct path using the 'databases' directory
+            resolved_path = os.path.join(self.database_directory, db_name)
+        else:
+            self.system_message.create_error_message("No database name or path provided.")
             return
+
+        if not os.path.exists(resolved_path):
+            self.system_message.create_error_message(f"Database '[bold cyan]{resolved_path}[/]' does not exist.")
+            return
+
         try:
-            self.connection = sqlite3.connect(db_path)
+            self.connection = sqlite3.connect(resolved_path)
             self.cursor = self.connection.cursor()
-            self.current_database = db_name
-            self.system_message.create_information_message(f"Connected to database: [bold cyan]{db_name}[/]")
+            self.current_database = resolved_path
+            self.system_message.create_information_message(f"Connected to database: [bold cyan]{resolved_path}[/]")
         except sqlite3.Error as e:
             self.system_message.create_error_message(f"Failed to connect to database: {e}")
 
-    def close(self):
+
+    def close(self) -> None:
         """
         Close the current database connection.
         """

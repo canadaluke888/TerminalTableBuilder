@@ -41,7 +41,7 @@ class CSVHandler:
         except Exception as e:
             self.table_builder.system_message.create_error_message(f"Failed to save file: {e}")
 
-    def load_csv(self, path: str = None) -> None:
+    def load_csv(self, path: str | os.PathLike = None) -> None:
         """
         Load a CSV file and update the table data with all columns defaulting to strings.
 

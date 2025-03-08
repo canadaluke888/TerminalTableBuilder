@@ -147,7 +147,7 @@ Below you can find the current set styles.
         self.console.print(
             Panel(self.get_welcome_message(),
                 title="[bold red]Terminal Table Builder[/]",
-                subtitle="[bold white]Welcome![/]",
+                subtitle="[bold white]Copyright (C) Luke Canada 2024-2025[/]",
                 subtitle_align="center",
                 border_style="cyan",
             )

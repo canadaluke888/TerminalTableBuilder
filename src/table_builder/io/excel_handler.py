@@ -7,8 +7,8 @@ class ExcelHandler:
         self.table_builder = table_builder
 
 
-    def load_excel(self, file: str = None) -> None:
-        file_name = file or self.table_builder.input_handler.get_user_input("[bold yellow]Enter the path to the Excel file[/]: ")
+    def load_excel(self, path: str | os.PathLike = None) -> None:
+        file_name = path or self.table_builder.input_handler.get_user_input("[bold yellow]Enter the path to the Excel file[/]: ")
 
         if file_name is None:
             return

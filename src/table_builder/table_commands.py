@@ -3,13 +3,16 @@ class TableCommands:
     def __init__(self, table_builder):
         self.table_builder = table_builder
 
-    def run(self) -> None:
+    def run(self, print_on_start: bool = False) -> None:
         """
         Launches the table builder loop.
         """
 
         if self.table_builder.settings.get_setting("hide_instructions") == "off":
             self.table_builder.instruction_message.print_table_builder_instructions()
+            
+        if print_on_start:
+            self.table_builder.table_display.print_table()
 
         while True:
             builder_command = self.table_builder.console.input("[bold red]Table Builder[/] - [bold yellow]Enter a command[/]: ").lower().strip()

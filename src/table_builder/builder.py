@@ -41,6 +41,7 @@ class TableBuilder:
         self.table_data = {"columns": [], "rows": []}
         self.table_saved = False
 
-    def launch_builder(self):
+
+    def launch_builder(self, print_on_start: bool = False):
         from .table_commands import TableCommands
-        TableCommands(self).run()
+        TableCommands(self).run(print_on_start=print_on_start)

@@ -70,14 +70,14 @@ class PDFHandler:
         except Exception as e:
             self.table_builder.system_message.create_error_message(f"Failed to save table as PDF: {e}")
 
-    def load_pdf(self, file: str = None) -> None:
+    def load_pdf(self, path: str | os.PathLike = None) -> None:
         """
         Load table data from a PDF file using pdfplumber.
 
         Args:
             path (str): Path to the PDF file. If not provided through CLI shortcut, prompt the user.
         """
-        file_name = file or self.table_builder.input_handler.get_user_input("[bold yellow]Enter path to the PDF file[/]: ").strip()
+        file_name = path or self.table_builder.input_handler.get_user_input("[bold yellow]Enter path to the PDF file[/]: ").strip()
 
         if file_name is None:
             return

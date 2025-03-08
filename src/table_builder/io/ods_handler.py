@@ -5,11 +5,11 @@ class ODSHandler:
     def __init__(self, table_builder):
         self.table_builder = table_builder
 
-    def load_ods(self, file: str = None) -> None:
+    def load_ods(self, path: str | os.PathLike = None) -> None:
         """
         Load table data from an .ods file using pyexcel-ods3.
         """
-        file_name = file or self.table_builder.input_handler.get_user_input("[bold yellow]Enter path to the ODS file[/]: ").strip()
+        file_name = path or self.table_builder.input_handler.get_user_input("[bold yellow]Enter path to the ODS file[/]: ").strip()
 
         if file_name is None:
             return
