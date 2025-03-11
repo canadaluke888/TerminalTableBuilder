@@ -66,7 +66,7 @@ def main(database, csv, xlsx, ods, pdf, tablebuilder, settings):
         console = Console()
         app_settings = Settings(console)
         database_manager = Database(console, app_settings)
-        table_builder = TableBuilder(console, app_settings, database_manager)
+        table_builder = TableBuilder(console, app_settings, database_manager, name_on_start=True)
 
         if csv:
             table_builder.csv_handler.load_csv(path=csv)

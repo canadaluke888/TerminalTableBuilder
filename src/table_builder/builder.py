@@ -16,7 +16,7 @@ from .utils import InputHandler, TableSpecs
 
 class TableBuilder:
 
-    def __init__(self, console: Console, settings: Settings, database: Database, name_on_start: str = None):
+    def __init__(self, console: Console, settings: Settings, database: Database, name_on_start: bool = False):
         self.console = console
         self.database = database
         self.settings = settings
@@ -35,9 +35,9 @@ class TableBuilder:
         self.input_handler = InputHandler(self)
         self.table_specs = TableSpecs(self)
 
-        self.name = name_on_start if name_on_start else self.table_operations.name_table()
-        if self.name is None:
-            self.name = "New Table"
+        
+        if not name_on_start:
+            self.name = self.table_operations.name_table()
         self.table_data = {"columns": [], "rows": []}
         self.table_saved = False
 
