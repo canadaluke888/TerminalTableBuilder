@@ -3,6 +3,7 @@ import json
 from message_panel.system_message import SystemMessage
 from functools import cache
 from rich.console import Console
+from app_utils.app_utils import get_resource_path
 
 class Autocomplete:
     
@@ -19,7 +20,7 @@ class Autocomplete:
         
         self.system_message = SystemMessage(self.console)
         
-        self.command_list_file = "autocomplete/command_list.json"
+        self.command_list_file = get_resource_path(__file__, "command_list.json")
         
         self.all_commands = self.load_command_list()
         

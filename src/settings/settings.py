@@ -7,6 +7,7 @@ from rich.console import Console
 from rich.console import Group
 from rich.panel import Panel
 from .styles.styles import StylesSetting
+from app_utils.app_utils import get_resource_path
 
 class Settings:
     
@@ -19,7 +20,7 @@ class Settings:
         
         self.console = console
         self.autocomplete = Autocomplete(self.console)
-        self.settings_file = "settings/settings.json"
+        self.settings_file = get_resource_path(__file__, "settings.json")
         self.system_message = SystemMessage(self.console)
         self.instruction_message = InstructionMessage(self.console)
         self.settings = self.load_settings_from_file()

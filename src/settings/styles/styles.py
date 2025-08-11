@@ -2,14 +2,16 @@ from rich.table import Table
 from rich.console import Group
 from rich.panel import Panel
 import json
+from app_utils.app_utils import get_resource_path
 
 
 class StylesSetting:
 
     def __init__(self, settings):
         self.settings = settings
-        self.colors_file = "settings/styles/colors.json"
-        self.user_styles_file = "settings/styles/user_styles.json"
+
+        self.colors_file = get_resource_path(__file__, "colors.json")
+        self.user_styles_file = get_resource_path(__file__, "user_styles.json")
         self.colors = self.load_colors_from_file()
         self.user_styles = self.load_user_styles_from_file()
 

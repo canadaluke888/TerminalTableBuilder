@@ -12,7 +12,7 @@ from .io.json_handler import JSONHandler
 from .database_handler import DatabaseHandler
 from .table_operations import TableOperations
 from .table_display import TableDisplay
-from .utils import InputHandler, TableSpecs
+from .table_utils import InputHandler, TableSpecs
 
 class TableBuilder:
 

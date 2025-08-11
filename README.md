@@ -31,7 +31,7 @@ Easily view and edit tables in databases from the terminal.
 
 ## Usage
 
-- **Starting the application:** For Linux and Max OS, `python3 main.py`. For Windows, `python main.py`. Make sure you cd into the 'src' directory.
+- **Starting the application:** For Linux and Max OS, `python3 src/main.py`. For Windows, `python src/main.py`.
 
 ### Database
 
