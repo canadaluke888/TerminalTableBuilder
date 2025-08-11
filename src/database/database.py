@@ -200,7 +200,7 @@ class Database:
         try:
             os.remove(db_path)
             self.system_message.create_information_message(f"Database deleted: [bold cyan]{db_name}[/]")
-            if self.current_database == db_name:
+            if self.current_database == db_path:
                 self.close()
         except Exception as e:
             self.system_message.create_error_message(f"Failed to delete database: {e}")
